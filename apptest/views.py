@@ -11,4 +11,4 @@ def about_view(request):
     return render(request, 'about.html')
 
 def test_view(request):
-    return render(request, 'test.html')
+    return render(request, 'test.html', {'name': 'amir mhmd', 'Family_Name': 'hoseini'})
