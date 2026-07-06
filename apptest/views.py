@@ -10,8 +10,5 @@ def contact_view(request):
 def about_view(request):
     return render(request, 'about.html')
 
-def blog_home_view(request):
-    return render(request, 'blog-home.html')
-
-def blog_single_view(request):
-    return render(request, 'blog-single.html')
+def test_view(request):
+    return render(request, 'test.html')
