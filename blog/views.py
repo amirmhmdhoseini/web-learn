@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from blog.models import Post
 
 # Create your views here.
 
 def blog_view(request):
-    return render(request, 'blog-home.html')
+    posts = Post.objects.filter(is_published = 1)
+    context = {'posts' : posts}
+    return render(request, 'blog-home.html', context)
 
 def blog_single(request):
     context = {'title' : 'Dynamic Blog',
@@ -12,3 +15,8 @@ def blog_single(request):
                'author' : 'amir mhmd'
                }
     return render(request, 'blog-single.html', context)
+
+def test_view(request):
+    posts = Post.objects.all()
+    context = {'posts' : posts}
+    return render(request, 'test.html', context)
