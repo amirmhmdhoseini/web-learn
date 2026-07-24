@@ -52,3 +52,9 @@ def test_view(request):
     posts = Post.objects.all
     context = {'posts' : posts}
     return render(request, 'test.html', context)
+
+def blog_category(request, cat_name):
+    posts = Post.objects.filter(is_published=1)
+    posts = posts.filter(category__name=cat_name)
+    context = {'posts' : posts}
+    return render(request, 'blog-home.html', context)
