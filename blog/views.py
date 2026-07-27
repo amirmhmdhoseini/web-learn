@@ -4,6 +4,7 @@ from blog.models import Post
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apptest.models import Contact
+from blog.forms import FirstForm
 
 # Create your views here.
 
@@ -67,19 +68,26 @@ def blog_single(request, pid):
 
 def test_view(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        subject = request.POST.get('subject')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+        myform = FirstForm(request.POST)
+        if myform.is_valid():
+            name = myform.cleaned_data['name']
+            subject = myform.cleaned_data['subject']
+            email = myform.cleaned_data['email']
+            message = myform.cleaned_data['message']
+            print(name,email,subject,message)
+            c = Contact()
+            c.name = name
+            c.email = email
+            c.subject = subject
+            c.message = message
+            c.save()
+            return HttpResponse("Done")
+    else:
+        myform = FirstForm()
 
-        c = Contact()
-        c.name = name
-        c.email = email
-        c.subject = subject
-        c.message = message
-        c.save()
 
-    return render(request, 'test.html')
+    context = {'myform' : myform}
+    return render(request, 'test.html', context)
 
 def blog_category(request, cat_name):
     posts = Post.objects.filter(is_published=1)
