@@ -4,7 +4,7 @@ from blog.models import Post
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apptest.models import Contact
-from blog.forms import FirstForm
+from blog.forms import FirstForm, ContactForm
 
 # Create your views here.
 
@@ -68,22 +68,12 @@ def blog_single(request, pid):
 
 def test_view(request):
     if request.method == 'POST':
-        myform = FirstForm(request.POST)
+        myform = ContactForm(request.POST)
         if myform.is_valid():
-            name = myform.cleaned_data['name']
-            subject = myform.cleaned_data['subject']
-            email = myform.cleaned_data['email']
-            message = myform.cleaned_data['message']
-            print(name,email,subject,message)
-            c = Contact()
-            c.name = name
-            c.email = email
-            c.subject = subject
-            c.message = message
-            c.save()
+            myform.save()
             return HttpResponse("Done")
     else:
-        myform = FirstForm()
+        myform = ContactForm()
 
 
     context = {'myform' : myform}
