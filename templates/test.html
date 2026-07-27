@@ -8,13 +8,24 @@
     <title>test</title>
 </head>
 <body>
-        <h1> Hello </h1>
-        <p>total posts count is : {% totalposts %}</p>
-        {% for post in posts %}
-        <h3>{{post.content|snippet:40}}</h3>
-        {% endfor %}
-        
-        {% popular_posts %}
+    <h1> Hello </h1>
+
+    <form action="{% url 'blog:test' %}" method="post">
+        {% csrf_token %}
+        <label>name : </label>
+        <input name="name" type="text"><br>
+
+        <label>email : </label>
+        <input name="email" type="text"><br>
+
+        <label>subject : </label>
+        <input name="subject" type="text"><br>
+
+        <label>message : </label>
+        <input name="message" type="text"><br>
+        <button type="submit">SUBMIT</button>
+
+    </form>
 
 
 </body>

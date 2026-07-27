@@ -2,12 +2,29 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from blog.models import Post
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from apptest.models import Contact
 
 # Create your views here.
 
-def blog_view(request):
+def blog_view(request, cat_name=None, author_username = None):
     posts = Post.objects.filter(is_published = 1,
                                 published_date__lte=timezone.now())
+    if cat_name != None:
+        posts = posts.filter(category__name=cat_name)
+
+    if author_username != None:
+        posts = posts.filter(author__username=author_username)
+
+    posts = Paginator(posts, 2)
+    try:
+        page_number = request.GET.get('page')
+        posts = posts.get_page(page_number)
+    except PageNotAnInteger:
+        posts = posts.get_page(1)
+    except EmptyPage:
+        posts = posts.get_page(1)
+        
     context = {'posts' : posts}
     return render(request, 'blog-home.html', context)
 
@@ -49,12 +66,31 @@ def blog_single(request, pid):
     return render(request, 'blog-single.html', context)
 
 def test_view(request):
-    posts = Post.objects.all
-    context = {'posts' : posts}
-    return render(request, 'test.html', context)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        subject = request.POST.get('subject')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        c = Contact()
+        c.name = name
+        c.email = email
+        c.subject = subject
+        c.message = message
+        c.save()
+
+    return render(request, 'test.html')
 
 def blog_category(request, cat_name):
     posts = Post.objects.filter(is_published=1)
     posts = posts.filter(category__name=cat_name)
+    context = {'posts' : posts}
+    return render(request, 'blog-home.html', context)
+
+def blog_search(request):
+    posts = Post.objects.filter(is_published = 1)
+    if request.method == 'GET':
+        if s:= request.GET.get('s'):
+            posts = posts.filter(content__contains=s)
     context = {'posts' : posts}
     return render(request, 'blog-home.html', context)
