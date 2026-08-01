@@ -76,6 +76,43 @@
             </div>
         </div>
     </header><!-- #header -->
+    <!--
+    {% if messages %}
+			<div class="container">
+			<div class="row">
+			<div class="col-md-8 offset-md-2">
+					{% for message in messages %}
+					{% if message.tags == 'error' %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					{% else %}
+						<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+					{% endif %}
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+					{% endfor %}
+			</div>
+			</div>
+			</div>
+			{% endif %}
+			
+			{% if form.errors %}
+				{% for field in form %}
+					{% for error in field.errors %}
+						<div class="alert alert-danger">
+							<strong>{{ error|escape }}</strong>
+						</div>
+					{% endfor %}
+				{% endfor %}
+
+				{% for error in form.non_field_errors %}
+					<div class="alert alert-danger">
+						<strong>{{ error|escape }}</strong>
+					</div>
+				{% endfor %}
+
+			{% endif %}--->
+    {% include 'message.html' %}
     {% block content %}
 
 
@@ -192,6 +229,7 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    
 </body>
 
 </html>

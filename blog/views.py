@@ -8,7 +8,7 @@ from blog.forms import FirstForm, ContactForm
 
 # Create your views here.
 
-def blog_view(request, cat_name=None, author_username = None):
+def blog_view(request, cat_name=None, author_username = None, tag_name=None):
     posts = Post.objects.filter(is_published = 1,
                                 published_date__lte=timezone.now())
     if cat_name != None:
@@ -17,7 +17,10 @@ def blog_view(request, cat_name=None, author_username = None):
     if author_username != None:
         posts = posts.filter(author__username=author_username)
 
-    posts = Paginator(posts, 2)
+    if tag_name != None:
+        posts = posts.filter(tags__name__in=[tag_name])
+
+    posts = Paginator(posts, 3)
     try:
         page_number = request.GET.get('page')
         posts = posts.get_page(page_number)
