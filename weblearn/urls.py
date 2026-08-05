@@ -25,6 +25,7 @@ urlpatterns = [
     path('robots.txt', include('robots.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('captcha/', include('captcha.urls')),
+    path('accounts/', include('accounts.urls')),
 
     
 ]

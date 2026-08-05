@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     'apptest',
     'blog',
+    'accounts',
 ]
 
 SITE_ID = 2

@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from blog.models import Post
+from blog.models import Post, Comment
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apptest.models import Contact
-from blog.forms import FirstForm, ContactForm
+from blog.forms import FirstForm, ContactForm, CommentForm
 
 # Create your views here.
 
@@ -61,10 +61,29 @@ def blog_single(request, pid):
     post.counted_views += 1
     post.save()
 
+    comments = Comment.objects.filter(post=post.id,
+                                  approved=True).order_by('-created_date')
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            print("FORM IS VALID")
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            print("SAVED COMMENT ID:", comment.id)
+            return redirect('blog:single', pid=post.id)
+        else:
+            print("FORM ERRORS:", form.errors)
+    else:
+        form = CommentForm()
+
+
     context = {
         'post': post,
         'previous_post': previous_post,
         'next_post': next_post,
+        'comments' : comments,
     }
 
     return render(request, 'blog-single.html', context)
