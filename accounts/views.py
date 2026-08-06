@@ -6,5 +6,5 @@ def login_view(request):
 
 # logout
 
-def signup(request):
+def signup_view(request):
     return render(request, 'accounts/signup.html')
