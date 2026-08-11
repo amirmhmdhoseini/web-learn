@@ -1,25 +1,35 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
+
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
+
 <body>
 
-    <form method="post" action="{% url 'accounts:login' %}">
+<form method="post" action="{% url 'accounts:login' %}">
     {% csrf_token %}
-      {{form}}
 
-  
+    {{form}}
+    <button
+        type="submit"
+        class="btn btn-primary btn-block mb-4">
+        Login
+    </button>
+    <a href="{% url 'accounts:password_reset' %}">
+        Forgot Password?
+    </a>
 
-  <!-- Submit button -->
-  <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Login</button>
 
-  
+
 </form>
-    
+
 </body>
 </html>
+

@@ -155,3 +155,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 MULTI_CAPTCHA_ADMIN = {
     'engine': 'simple-captcha',
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

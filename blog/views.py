@@ -78,6 +78,9 @@ def blog_single(request, pid):
     else:
         form = CommentForm()
 
+    if post.login_require == True and request.user.is_authenticated == False:
+        return redirect('accounts:login')
+        
 
     context = {
         'post': post,
