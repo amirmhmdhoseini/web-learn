@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import LoginForm
+from .forms import LoginForm, SignupForm
 
 
 def login_view(request):
@@ -43,14 +43,14 @@ def signup_view(request):
         return redirect('/')
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignupForm(request.POST)
 
         if form.is_valid():
             form.save()
             return redirect('/')
 
     else:
-        form = UserCreationForm()
+        form = SignupForm()
 
     context = {
         'form': form
