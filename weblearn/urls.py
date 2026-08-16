@@ -6,6 +6,7 @@ from django.contrib.sitemaps.views import sitemap
 from apptest.sitemaps import StaticViewSitemap
 from blog.sitemaps import BlogSitemap
 from debug_toolbar.toolbar import debug_toolbar_urls
+from apptest import views
 
 
 sitemaps = {
@@ -15,6 +16,8 @@ sitemaps = {
 
 
 urlpatterns = [
+    #path('', views.coming_soon),
+    #path('<path:anything>', views.coming_soon),
     path('admin/', admin.site.urls),
     path('', include('apptest.urls')),
     path('blog/', include('blog.urls')),
