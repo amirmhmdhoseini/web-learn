@@ -1,0 +1,7 @@
+// .htaccess hide mishe file txt mamoli gozahtam baraton
+
+
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.amir-hosseini\.ir$ [NC]
+RewriteRule ^(.*)$ https://amir-hosseini.ir/$1 [R=301,L]
